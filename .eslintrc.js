@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  extends: ['@react-native', 'plugin:jest/recommended'],
+  extends: ['@react-native'],
   overrides: [
     {
       files: ['**/*.ts', '**/*.tsx'],
@@ -12,18 +12,22 @@ module.exports = {
         'plugin:@typescript-eslint/recommended',
         'plugin:@typescript-eslint/stylistic',
         'plugin:import/recommended',
+        'plugin:jest/recommended',
         'plugin:react/jsx-runtime',
         'plugin:perfectionist/recommended-natural',
       ],
       rules: {
         'no-console': 'off',
+        'object-shorthand': 'error',
         '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
+        '@typescript-eslint/no-empty-function': 'off',
         '@typescript-eslint/consistent-type-imports': [
           'error',
           { prefer: 'type-imports', fixStyle: 'separate-type-imports', disallowTypeAnnotations: false },
         ],
         '@typescript-eslint/no-unused-vars': 'warn',
         '@typescript-eslint/no-import-type-side-effects': 'error',
+        'react/jsx-no-useless-fragment': 'error',
         'react-native/no-unused-styles': 'warn',
         'react-native/no-color-literals': 'warn',
         'react-native/no-single-element-style-arrays': 'warn',
@@ -37,14 +41,10 @@ module.exports = {
           'error',
           { additionalHooks: '(useAnimatedStyle|useDerivedValue|useAnimatedProps)' },
         ],
+        'import/no-unresolved': 'off',
         'perfectionist/sort-objects': 'off',
       },
       settings: {
-        'import/resolver': {
-          node: {
-            extensions: ['.js', '.jsx', '.ts', '.tsx'],
-          },
-        },
         'import/ignore': ['react-native'],
       },
     },

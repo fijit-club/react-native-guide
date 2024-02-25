@@ -3,7 +3,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "rn-tourguide": ["./src/index"]
+      "@fijit-club/rn-tourguide": ["./src/index"]
     },
     "checkJs": false,
     "jsx": "react-jsx",

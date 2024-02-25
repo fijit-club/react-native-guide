@@ -1,17 +1,17 @@
-# rn-tourguide
+# @fijit-club/rn-tourguide
 
 react native tourguide
 
 ## Installation
 
 ```sh
-npm install rn-tourguide
+npm install @fijit-club/rn-tourguide
 ```
 
 ## Usage
 
 ```js
-import { multiply } from 'rn-tourguide';
+import { multiply } from '@fijit-club/rn-tourguide';
 
 // ...
 

@@ -1,0 +1,20 @@
+export type IStep = {
+  // borderRadius?: number;
+  // borderRadiusObject?: BorderRadiusObject;
+  // isLastStep?: boolean;
+  // keepTooltipPosition?: boolean;
+  // maskOffset?: Offset | number;
+  // name: string;
+  // onZonePress?: () => void;
+  tourIndex: number;
+  // order: number;
+  tourKey: string;
+  // shape?: Shape;
+  // target: any;
+  // text: string;
+  // tooltipArrowPosition?: ArrowPositions;
+  // tooltipBottomOffset?: number;
+  // tooltipStyleOverride?: ViewStyle;
+  // visible?: boolean;
+  // wrapper: any;
+};
