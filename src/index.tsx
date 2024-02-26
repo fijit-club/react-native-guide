@@ -1,3 +1,3 @@
-export function multiply(a: number, b: number): Promise<number> {
-  return Promise.resolve(a * b);
-}
+export { default as TourGuideProvider } from './TourGuideProvider';
+export { default as TourGuideZone } from './TourGuideZone';
+export { default as useTourGuideController } from './useTourGuideController';

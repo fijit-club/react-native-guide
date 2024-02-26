@@ -1957,12 +1957,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@evilmartians/lefthook@npm:^1.6.1":
-  version: 1.6.1
-  resolution: "@evilmartians/lefthook@npm:1.6.1"
+"@evilmartians/lefthook@npm:^1.6.2":
+  version: 1.6.2
+  resolution: "@evilmartians/lefthook@npm:1.6.2"
   bin:
     lefthook: bin/index.js
-  checksum: 10c0/7f6155bd8537ad6436ae0e11734ba28047d603da4d985a72f0ada6fb8df736d2209de505276e91b98508e80cbf3cff357d1340d3de32bd0017775a3723060c18
+  checksum: 10c0/8938ae51713b765506b307c6672c42f91ea3864de862584cb7e82d79f67af184be2704bb751696f658424fbc35585561f195084cf023cbd0ebde2650629e8aa4
   conditions: (os=darwin | os=linux | os=win32) & (cpu=x64 | cpu=arm64 | cpu=ia32)
   languageName: node
   linkType: hard
@@ -2437,7 +2437,7 @@ __metadata:
   dependencies:
     "@commitlint/cli": "npm:^18.6.1"
     "@commitlint/config-conventional": "npm:^18.6.2"
-    "@evilmartians/lefthook": "npm:^1.6.1"
+    "@evilmartians/lefthook": "npm:^1.6.2"
     "@react-native/eslint-config": "npm:^0.73.2"
     "@release-it/conventional-changelog": "npm:^8.0.1"
     "@tsconfig/strictest": "npm:^2.0.3"
@@ -2456,6 +2456,7 @@ __metadata:
     react: "npm:18.2.0"
     react-native: "npm:0.73.4"
     react-native-builder-bob: "npm:^0.23.2"
+    react-native-hole-view: "npm:^3.0.0-alpha4"
     release-it: "npm:^17.1.1"
     typescript: "npm:5.3.3"
   peerDependencies:
@@ -14631,6 +14632,16 @@ __metadata:
   bin:
     bob: bin/bob
   checksum: 10c0/b5e8943ce011e43dbd75c04a96a27464ad7820aaed0b35a50cabbefeb5292de0cdea8b505364bddda045a5cf0e9d72c1bf7ac0cea9c0c6e33b574b8d64c65817
+  languageName: node
+  linkType: hard
+
+"react-native-hole-view@npm:^3.0.0-alpha4":
+  version: 3.0.0-alpha4
+  resolution: "react-native-hole-view@npm:3.0.0-alpha4"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/906a766a2e8dbf657dc92da7c7cd214a262cd548863e9bb5312279826ece22bee6f5a3b94e51e5aeb60060b30afba34bde8e8f73d1c274c51ea6f1dd5e053e18
   languageName: node
   linkType: hard
 
