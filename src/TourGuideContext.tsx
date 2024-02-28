@@ -1,25 +1,25 @@
-import { createContext } from 'react';
+import { createContext, useContext } from 'react';
 
 import type { IStep } from './types';
 
 export type ITourGuideContext = {
   canStart: boolean;
-  getCurrentStep: (key: string) => IStep | undefined;
-  registerStep: (key: string, step: IStep) => void;
-  setTourKey: (tourKey: string) => void;
-  start: (key: string, fromStep: number) => void;
-  stop: (key: string) => void;
-  unregisterStep: (key: string, stepName: string) => void;
+  currentStep: IStep | undefined;
+  registerStep: (step: IStep) => void;
+  start: (fromStep: number) => void;
+  stop: () => void;
+  unregisterStep: (stepIndex: number) => void;
 };
 
 const TourGuideContext = createContext<ITourGuideContext>({
   canStart: false,
-  getCurrentStep: () => undefined,
+  currentStep: undefined,
   registerStep: () => {},
-  setTourKey: () => {},
   start: () => {},
   stop: () => {},
   unregisterStep: () => {},
 });
 
 export default TourGuideContext;
+
+export const useTourGuideController = () => useContext(TourGuideContext);

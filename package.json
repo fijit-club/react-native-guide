@@ -1,6 +1,6 @@
 {
-  "name": "@fijit-club/rn-tourguide",
-  "version": "4.0.0",
+  "name": "react-native-guide",
+  "version": "0.1.0",
   "description": "react native tourguide",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -26,7 +26,7 @@
     "!**/.*"
   ],
   "scripts": {
-    "example": "yarn workspace @fijit-club/rn-tourguide-example",
+    "example": "yarn workspace example",
     "test": "jest",
     "typecheck": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
@@ -50,20 +50,21 @@
   "homepage": "https://github.com/fijit-club/rn-tourguide#readme",
   "dependencies": {
     "react": "18.2.0",
-    "react-native": "0.73.4",
-    "react-native-hole-view": "^3.0.0-alpha4"
+    "react-native": "0.73.5",
+    "react-native-hole-view": "^3.0.0-alpha4",
+    "react-native-reanimated": "^3.7.1"
   },
   "devDependencies": {
-    "@commitlint/cli": "^18.6.1",
-    "@commitlint/config-conventional": "^18.6.2",
-    "@evilmartians/lefthook": "^1.6.2",
+    "@commitlint/cli": "^19.0.3",
+    "@commitlint/config-conventional": "^19.0.3",
+    "@evilmartians/lefthook": "^1.6.4",
     "@react-native/eslint-config": "^0.73.2",
     "@release-it/conventional-changelog": "^8.0.1",
     "@tsconfig/strictest": "^2.0.3",
     "@types/jest": "^29.5.12",
-    "@types/react": "^18.2.58",
-    "@typescript-eslint/eslint-plugin": "7.0.2",
-    "@typescript-eslint/parser": "7.0.2",
+    "@types/react": "^18.2.60",
+    "@typescript-eslint/eslint-plugin": "7.1.0",
+    "@typescript-eslint/parser": "7.1.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "npm:eslint-plugin-i@^2.29.1",
@@ -76,12 +77,11 @@
     "release-it": "^17.1.1",
     "typescript": "5.3.3"
   },
-  "resolutions": {
-    "@types/react": "^18.2.44"
-  },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "react-native-hole-view": "*",
+    "react-native-reanimated": "*"
   },
   "workspaces": [
     "example"

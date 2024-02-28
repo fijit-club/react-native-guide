@@ -1,22 +1,47 @@
 import type { FC, PropsWithChildren } from 'react';
+import type { LayoutRectangle } from 'react-native';
 
-import Step from './Step';
-import { DEFAULT_TOUR_KEY } from './config';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { View } from 'react-native';
 
-type TourGuideZoneProps = PropsWithChildren<{
-  isActive?: boolean;
-  tourKey?: string;
-  zone: number;
-}>;
+import type { IStep } from './types';
 
-const TourGuideZone: FC<TourGuideZoneProps> = ({ isActive = false, children, tourKey = DEFAULT_TOUR_KEY, zone }) => {
-  if (!isActive) return children;
+import TourGuideContext from './TourGuideContext';
+
+type StepProps = PropsWithChildren<Omit<IStep, 'layout'>>;
+
+const Step: FC<StepProps> = ({ children, index, style, ...props }) => {
+  const { registerStep, unregisterStep } = useContext(TourGuideContext);
+  const [layout, setLayout] = useState<LayoutRectangle | null>(null);
+  const ref = useRef<View>(null);
+
+  useEffect(() => {
+    console.log('registering step', props);
+    if (!layout) return;
+    registerStep({ layout, index, ...props });
+
+    return () => {
+      unregisterStep(index);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index, layout, registerStep, unregisterStep, JSON.stringify(props)]);
+
+  const onLayout = () => {
+    ref.current?.measure((_x, _y, width, height, pageX, pageY) => setLayout({ x: pageX, y: pageY, width, height }));
+  };
 
   return (
-    <Step tourIndex={zone} tourKey={tourKey}>
+    <View onLayout={onLayout} ref={ref} style={style}>
       {children}
-    </Step>
+    </View>
   );
 };
+
+type TourGuideZoneProps = StepProps & {
+  isActive?: boolean;
+};
+
+const TourGuideZone: FC<TourGuideZoneProps> = ({ children, isActive = true, ...props }) =>
+  isActive ? <Step {...props}>{children}</Step> : children;
 
 export default TourGuideZone;

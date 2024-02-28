@@ -1,26 +1,24 @@
 {
-  "name": "@fijit-club/rn-tourguide-example",
+  "name": "example",
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web"
   },
   "dependencies": {
-    "expo": "~50.0.7",
-    "expo-status-bar": "~1.11.1",
+    "expo": "^50.0.7",
+    "expo-status-bar": "^1.11.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-native": "0.73.4",
-    "react-native-web": "0.19.10"
+    "react-native": "0.73.5",
+    "react-native-guide": "0.1.0",
+    "react-native-hole-view": "^3.0.0-alpha4",
+    "react-native-reanimated": "^3.7.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.9",
-    "@expo/webpack-config": "^19.0.1",
-    "babel-loader": "^9.1.3",
-    "babel-plugin-module-resolver": "^5.0.0"
+    "@babel/core": "^7.24.0"
   },
   "private": true
 }

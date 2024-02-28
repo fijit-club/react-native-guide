@@ -4,27 +4,19 @@ import { useCallback, useMemo, useState } from 'react';
 
 import type { IStep } from './types';
 
-import Modal from './Modal';
+import Modal, { type TourGuideModalProps } from './Modal';
 import TourGuideContext from './TourGuideContext';
-import { DEFAULT_TOUR_KEY } from './config';
 
-const getOrder = (step?: IStep) => step?.tourIndex ?? -1;
+const getOrder = (step?: IStep) => step?.index ?? -1;
 
-type TourGuideProviderProps = PropsWithChildren<{
-  //
-}>;
-
-export type Keyed<T> = Record<string, T | undefined>;
-
-const TourGuideProvider: FC<TourGuideProviderProps> = ({ children, ...props }) => {
-  const [tourKey, setTourKey] = useState<string>(DEFAULT_TOUR_KEY);
-  const [currentStep, setCurrentStep] = useState<Keyed<IStep>>({});
-  const [steps, setSteps] = useState<Keyed<Record<number, IStep | undefined>>>({});
-  const [visible, setVisible] = useState<Keyed<boolean>>({});
+const TourGuideProvider: FC<PropsWithChildren<TourGuideModalProps>> = ({ children, ...props }) => {
+  const [currentStep, setCurrentStep] = useState<IStep>();
+  const [steps, setSteps] = useState<Record<number, IStep | undefined>>({});
+  const [visible, setVisible] = useState<boolean>();
 
   // useEffect(() => {
-  //   if (visible[tourKey] || currentStep[tourKey]) {
-  //     moveToCurrentStep(tourKey)
+  //   if (visible || currentStep) {
+  //     moveToCurrentStep
   //   }
   // }, [visible, currentStep])
 
@@ -46,95 +38,64 @@ const TourGuideProvider: FC<TourGuideProviderProps> = ({ children, ...props }) =
   //   })
   // }
 
-  const updateVisible = useCallback(
-    (key: string, value: boolean) => setVisible((prevState) => ({ ...prevState, [key]: value })),
-    [],
-  );
-  const updateCurrentStep = useCallback(
-    (key: string, value: IStep | undefined) => setCurrentStep((prevState) => ({ ...prevState, [key]: value })),
-    [],
-  );
-
-  const getCurrentStep = useCallback((key: string) => currentStep[key], [currentStep]);
-
   const registerStep = useCallback(
-    (key: string, step: IStep) =>
-      setSteps((prevState) => ({ ...prevState, [key]: { ...prevState[key], [step.tourIndex]: step } })),
+    (step: IStep) => setSteps((prevState) => ({ ...prevState, [step.index]: step })),
     [],
   );
 
   const unregisterStep = useCallback(
-    (key: string, stepIndex: string) =>
-      setSteps((prevState) => ({ ...prevState, [key]: { ...prevState[key], [stepIndex]: undefined } })),
+    (stepIndex: number) => setSteps((prevState) => ({ ...prevState, [stepIndex]: undefined })),
     [],
   );
 
-  const stop = useCallback(
-    (key = tourKey) => {
-      updateVisible(key, false);
-      updateCurrentStep(key, undefined);
-    },
-    [updateCurrentStep, updateVisible, tourKey],
-  );
+  const stop = useCallback(() => {
+    setVisible(false);
+    setCurrentStep(undefined);
+  }, []);
 
-  const canStart = useMemo(() => Object.values(steps[tourKey] ?? {}).length > 0, [steps, tourKey]);
+  const canStart = useMemo(() => Object.values(steps).length > 0, [steps]);
 
-  const currStep = useMemo(() => currentStep[tourKey], [currentStep, tourKey]);
-
-  const sortedSteps = useMemo(
-    () => Object.values(steps[tourKey] ?? {}).sort((a, b) => getOrder(a) - getOrder(b)),
-    [steps, tourKey],
-  );
+  const sortedSteps = useMemo(() => Object.values(steps ?? {}).sort((a, b) => getOrder(a) - getOrder(b)), [steps]);
 
   const prev = useCallback(() => {
-    const prevStep = sortedSteps.findLast((value) => getOrder(value) < getOrder(currStep));
-    updateCurrentStep(tourKey, prevStep ?? currStep);
-  }, [currStep, sortedSteps, tourKey, updateCurrentStep]);
+    const prevStep = sortedSteps.findLast((value) => getOrder(value) < getOrder(currentStep));
+    setCurrentStep(prevStep ?? currentStep);
+  }, [currentStep, sortedSteps]);
 
   const next = useCallback(() => {
-    const nextStep = sortedSteps.find((value) => getOrder(value) > getOrder(currStep));
-    updateCurrentStep(tourKey, nextStep ?? currStep);
-  }, [currStep, sortedSteps, tourKey, updateCurrentStep]);
+    const nextStep = sortedSteps.find((value) => getOrder(value) > getOrder(currentStep));
+    setCurrentStep(nextStep ?? currentStep);
+  }, [currentStep, sortedSteps]);
 
   const start = useCallback(
-    (key: string, fromStep: number) => {
-      const initStep = steps[key]?.[fromStep];
+    (fromStep: number) => {
+      const initStep = steps?.[fromStep];
       if (!initStep) return;
 
-      updateCurrentStep(key, initStep);
-      updateVisible(key, true);
+      setCurrentStep(initStep);
+      setVisible(true);
     },
-    [steps, updateCurrentStep, updateVisible],
+    [steps],
   );
 
-  const isFirstStep = useMemo(() => getOrder(currStep) === getOrder(sortedSteps.at(0)), [currStep, sortedSteps]);
-  const isLastStep = useMemo(() => getOrder(currStep) === getOrder(sortedSteps.at(-1)), [currStep, sortedSteps]);
+  const isFirstStep = useMemo(() => getOrder(currentStep) === getOrder(sortedSteps.at(0)), [currentStep, sortedSteps]);
+  const isLastStep = useMemo(() => getOrder(currentStep) === getOrder(sortedSteps.at(-1)), [currentStep, sortedSteps]);
 
   return (
-    <TourGuideContext.Provider
-      value={{
-        registerStep,
-        unregisterStep,
-        getCurrentStep,
-        start,
-        stop,
-        canStart,
-        setTourKey,
-      }}
-    >
+    <TourGuideContext.Provider value={{ registerStep, unregisterStep, start, stop, currentStep, canStart }}>
       {children}
-      <Modal
-        // ref={modal}
-        currentStep={currStep}
-        isFirstStep={isFirstStep}
-        isLastStep={isLastStep}
-        next={next}
-        prev={prev}
-        stop={stop}
-        tourKey={tourKey}
-        visible={visible[tourKey] ?? false}
-        {...props}
-      />
+
+      {visible && currentStep && (
+        <Modal
+          isFirstStep={isFirstStep}
+          isLastStep={isLastStep}
+          next={next}
+          prev={prev}
+          step={currentStep}
+          stop={stop}
+          {...props}
+        />
+      )}
     </TourGuideContext.Provider>
   );
 };

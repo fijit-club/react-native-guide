@@ -1,20 +1,17 @@
+import type { LayoutRectangle, StyleProp, ViewStyle } from 'react-native';
+import type { RNHole } from 'react-native-hole-view';
+
+export type HoleStyle = Partial<RNHole> & {
+  paddingX?: number;
+  paddingY?: number;
+};
+
 export type IStep = {
-  // borderRadius?: number;
-  // borderRadiusObject?: BorderRadiusObject;
-  // isLastStep?: boolean;
-  // keepTooltipPosition?: boolean;
-  // maskOffset?: Offset | number;
-  // name: string;
-  // onZonePress?: () => void;
-  tourIndex: number;
-  // order: number;
-  tourKey: string;
-  // shape?: Shape;
-  // target: any;
-  // text: string;
-  // tooltipArrowPosition?: ArrowPositions;
-  // tooltipBottomOffset?: number;
-  // tooltipStyleOverride?: ViewStyle;
-  // visible?: boolean;
-  // wrapper: any;
+  disableInteraction?: boolean;
+  holeStyle?: HoleStyle;
+  index: number;
+  layout: LayoutRectangle;
+  style?: StyleProp<ViewStyle>;
+  tooltipBottomOffset?: number;
+  tooltipStyle?: StyleProp<ViewStyle>;
 };
