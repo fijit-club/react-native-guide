@@ -14,30 +14,6 @@ const TourGuideProvider: FC<PropsWithChildren<TourGuideModalProps>> = ({ childre
   const [steps, setSteps] = useState<Record<number, IStep | undefined>>({});
   const [visible, setVisible] = useState<boolean>();
 
-  // useEffect(() => {
-  //   if (visible || currentStep) {
-  //     moveToCurrentStep
-  //   }
-  // }, [visible, currentStep])
-
-  // const moveToCurrentStep = async (key: string) => {
-  //   const size = await currentStep[key]?.target.measure()
-  //   if (
-  //     isNaN(size.width) ||
-  //     isNaN(size.height) ||
-  //     isNaN(size.x) ||
-  //     isNaN(size.y)
-  //   ) {
-  //     return
-  //   }
-  //   await modal.current?.animateMove({
-  //     width: size.width + OFFSET_WIDTH,
-  //     height: size.height + OFFSET_WIDTH,
-  //     left: Math.round(size.x) - OFFSET_WIDTH / 2,
-  //     top: Math.round(size.y) - OFFSET_WIDTH / 2 + (verticalOffset || 0),
-  //   })
-  // }
-
   const registerStep = useCallback(
     (step: IStep) => setSteps((prevState) => ({ ...prevState, [step.index]: step })),
     [],

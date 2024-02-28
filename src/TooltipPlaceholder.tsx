@@ -10,7 +10,7 @@ import type { FC, PropsWithChildren } from 'react';
 
 import type { IStep } from './types';
 
-export type TooltipProps = {
+export type TooltipPlaceholderProps = {
   isFirstStep: boolean;
   isLastStep: boolean;
   next: () => void;
@@ -19,7 +19,7 @@ export type TooltipProps = {
   stop: () => void;
 };
 
-const Tooltip: FC<TooltipProps> = ({ isFirstStep, isLastStep, next, prev, stop, step }) => (
+const TooltipPlaceholder: FC<TooltipPlaceholderProps> = ({ isFirstStep, isLastStep, next, prev, stop, step }) => (
   <View
     style={{
       borderRadius: 16,
@@ -59,7 +59,7 @@ const Tooltip: FC<TooltipProps> = ({ isFirstStep, isLastStep, next, prev, stop, 
   </View>
 );
 
-export default Tooltip;
+export default TooltipPlaceholder;
 
 const styles = StyleSheet.create({
   tooltipText: {

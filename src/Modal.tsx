@@ -1,17 +1,19 @@
 import type { FC } from 'react';
 import type { LayoutRectangle } from 'react-native';
+import type { RNHole } from 'react-native-hole-view';
 
 import { useEffect } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
-import { RNHoleView } from 'react-native-hole-view';
+import { ERNHoleViewTimingFunction, RNHoleView } from 'react-native-hole-view';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
 import type { HoleStyle, IStep } from './types';
 
-import Tooltip, { type TooltipProps } from './Tooltip';
+import TooltipPlaceholder, { type TooltipPlaceholderProps } from './TooltipPlaceholder';
 
 export type TourGuideModalProps = {
-  TooltipComponent?: FC<TooltipProps>;
+  TooltipComponent?: FC<TooltipPlaceholderProps>;
+  animationDuration?: number;
   backdropColor?: string;
   holeStyle?: HoleStyle;
 };
@@ -90,30 +92,38 @@ const calcPosition = (size: LayoutRectangle) => {
   };
 };
 
+const parseProperty = <T extends Record<string, unknown>, U extends keyof T>(
+  obj1: T | undefined,
+  obj2: T | undefined,
+  key: U,
+) => {
+  return obj1?.[key] ?? obj2?.[key] ?? 0;
+};
+
 const Modal: FC<TourGuideModalProps & ModalNavProps> = ({
   step,
   backdropColor,
   holeStyle,
-  TooltipComponent = Tooltip,
+  TooltipComponent = TooltipPlaceholder,
+  animationDuration = 400,
   ...props
 }) => {
   const tooltipTranslateY = useSharedValue(400);
   const opacity = useSharedValue(0);
 
   useEffect(() => {
-    const duration = 400 + 200;
     const toValue = calcPosition(step.layout).toValue - (step.tooltipBottomOffset || 0);
 
     tooltipTranslateY.value = withTiming(toValue, {
-      duration,
-      easing: Easing.elastic(0.7),
+      duration: animationDuration,
+      easing: Easing.inOut(Easing.ease),
     });
 
     opacity.value = withTiming(1, {
-      duration,
-      easing: Easing.elastic(0.7),
+      duration: animationDuration,
+      easing: Easing.inOut(Easing.ease),
     });
-  }, [opacity, tooltipTranslateY, step]);
+  }, [opacity, tooltipTranslateY, step, animationDuration]);
 
   const animatedStyles = useAnimatedStyle(() => {
     return {
@@ -122,11 +132,23 @@ const Modal: FC<TourGuideModalProps & ModalNavProps> = ({
     };
   });
 
+  const paddingX = parseProperty(step.holeStyle, holeStyle, 'paddingX');
+  const paddingY = parseProperty(step.holeStyle, holeStyle, 'paddingY');
+  const hole: RNHole = {
+    x: step.layout.x - paddingX / 2,
+    y: step.layout.y - paddingY / 2,
+    width: step.layout.width + paddingX,
+    height: step.layout.height + paddingY,
+    ...holeStyle,
+    ...step.holeStyle,
+  };
+
   return (
     <View pointerEvents={step.disableInteraction ? 'box-only' : 'box-none'} style={StyleSheet.absoluteFill}>
       <RNHoleView
-        holes={[{ ...step.layout, ...holeStyle, ...step.holeStyle }]}
-        style={[styles.hole, { backgroundColor: backdropColor }, step.holeStyle]}
+        animation={{ timingFunction: ERNHoleViewTimingFunction.EASE_IN_OUT, duration: animationDuration }}
+        holes={[hole]}
+        style={[styles.hole, { backgroundColor: backdropColor }]}
       />
 
       <Animated.View pointerEvents="box-none" style={[styles.tooltip, step.tooltipStyle, animatedStyles]}>

@@ -16,7 +16,6 @@ const Step: FC<StepProps> = ({ children, index, style, ...props }) => {
   const ref = useRef<View>(null);
 
   useEffect(() => {
-    console.log('registering step', props);
     if (!layout) return;
     registerStep({ layout, index, ...props });
 
