@@ -13,12 +13,12 @@
     "expo-status-bar": "^1.11.1",
     "react": "18.2.0",
     "react-native": "0.73.5",
-    "react-native-guide": "0.1.0",
     "react-native-hole-view": "^3.0.0-alpha4",
     "react-native-reanimated": "^3.7.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.0"
+    "@babel/core": "^7.24.0",
+    "babel-plugin-module-resolver": "^5.0.0"
   },
   "private": true
 }

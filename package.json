@@ -40,14 +40,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fijit-club/rn-tourguide.git"
+    "url": "git+https://github.com/fijit-club/react-native-guide.git"
   },
   "author": "Laxman Desai <laxman@fijit.club> (https://github.com/relaxxpls)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/fijit-club/rn-tourguide/issues"
+    "url": "https://github.com/fijit-club/react-native-guide/issues"
   },
-  "homepage": "https://github.com/fijit-club/rn-tourguide#readme",
+  "homepage": "https://github.com/fijit-club/react-native-guide#readme",
   "dependencies": {
     "react": "18.2.0",
     "react-native": "0.73.5",
