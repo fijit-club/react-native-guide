@@ -1,63 +1,60 @@
+import type { FC, PropsWithChildren } from 'react';
+
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-export const Button: FC<PropsWithChildren<{ text: string }>> = ({ text }) => (
+import useTourGuide from './useTourGuide';
+
+const Button: FC<PropsWithChildren<{ text: string }>> = ({ text }) => (
   <View style={styles.button}>
     <Text style={styles.buttonText}>{text}</Text>
   </View>
 );
 
-import type { FC, PropsWithChildren } from 'react';
+const TooltipPlaceholder: FC = () => {
+  const { currentStep, next, prev, stop, isFirstStep, isLastStep } = useTourGuide();
 
-import type { IStep } from './types';
+  if (!currentStep) return null;
 
-export type TooltipPlaceholderProps = {
-  isFirstStep: boolean;
-  isLastStep: boolean;
-  next: () => void;
-  prev: () => void;
-  step: IStep;
-  stop: () => void;
+  return (
+    <View
+      style={{
+        borderRadius: 16,
+        paddingTop: 24,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingBottom: 16,
+        width: '80%',
+        backgroundColor: '#ffffffef',
+      }}
+    >
+      <View style={styles.tooltipContainer}>
+        <Text style={styles.tooltipText} testID="stepDescription">
+          {currentStep.index}
+        </Text>
+      </View>
+      <View style={styles.bottomBar}>
+        {!isLastStep ?
+          <TouchableOpacity onPress={stop}>
+            <Button text="Skip" />
+          </TouchableOpacity>
+        : null}
+        {!isFirstStep ?
+          <TouchableOpacity onPress={prev}>
+            <Button text="Previous" />
+          </TouchableOpacity>
+        : null}
+        {!isLastStep ?
+          <TouchableOpacity onPress={next}>
+            <Button text="Next" />
+          </TouchableOpacity>
+        : <TouchableOpacity onPress={stop}>
+            <Button text="Finish" />
+          </TouchableOpacity>
+        }
+      </View>
+    </View>
+  );
 };
-
-const TooltipPlaceholder: FC<TooltipPlaceholderProps> = ({ isFirstStep, isLastStep, next, prev, stop, step }) => (
-  <View
-    style={{
-      borderRadius: 16,
-      paddingTop: 24,
-      alignItems: 'center',
-      justifyContent: 'center',
-      paddingBottom: 16,
-      width: '80%',
-      backgroundColor: '#ffffffef',
-    }}
-  >
-    <View style={styles.tooltipContainer}>
-      <Text style={styles.tooltipText} testID="stepDescription">
-        {step.index}
-      </Text>
-    </View>
-    <View style={styles.bottomBar}>
-      {!isLastStep ?
-        <TouchableOpacity onPress={stop}>
-          <Button text="Skip" />
-        </TouchableOpacity>
-      : null}
-      {!isFirstStep ?
-        <TouchableOpacity onPress={prev}>
-          <Button text="Previous" />
-        </TouchableOpacity>
-      : null}
-      {!isLastStep ?
-        <TouchableOpacity onPress={next}>
-          <Button text="Next" />
-        </TouchableOpacity>
-      : <TouchableOpacity onPress={stop}>
-          <Button text="Finish" />
-        </TouchableOpacity>
-      }
-    </View>
-  </View>
-);
 
 export default TooltipPlaceholder;
 

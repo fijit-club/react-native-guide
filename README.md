@@ -20,83 +20,70 @@ import {
 // Add <TourGuideProvider/> at the root of you app!
 function App() {
   return (
-    <TourGuideProvider {...{ borderRadius: 16 }}>
+    <TourGuideProvider backdropColor="#000000de" holeStyle={{ paddingX: 32, paddingY: 16, borderRadius: 16 }}>
       <AppContent />
     </TourGuideProvider>
   )
 }
 
 const AppContent = () => {
-  const iconProps = { size: 40, color: '#888' }
+  const { start, canStart, stop } = useTourGuide();
 
-  // Use Hooks to control!
-  const {
-    canStart, // a boolean indicate if you can start tour guide
-    start, // a function to start the tourguide
-    stop, // a function  to stopping it
-  } = useTourGuideController()
-
-  // Can start at mount 🎉
-  // you need to wait until everything is registered 😁
-  React.useEffect(() => {
-    if (canStart) {
-      // 👈 test if you can start otherwise nothing will happen
-      start(2)
-    }
-  }, [canStart]) // 👈 don't miss it!
+  useEffect(() => {
+    if (canStart) start(2);
+  }, [canStart, start]);
 
   return (
-    <View style={styles.container}>
-      {/* Use TourGuideZone only to wrap your component */}
-      <TourGuideZone
-        zone={2}
-        text={'A react-native-copilot remastered! 🎉'}
-        borderRadius={16}
-      >
-        <Text style={styles.title}>
-          {'Welcome to the demo of\n"react-native-guide"'}
-        </Text>
-      </TourGuideZone>
-      <View style={styles.middleView}>
-        <TouchableOpacity style={styles.button} onPress={() => start()}>
-          <Text style={styles.buttonText}>START THE TUTORIAL!</Text>
-        </TouchableOpacity>
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <View style={styles.container}>
+        <TourGuideZone index={6}>
+          <Text style={styles.title}>
+            Welcome to the demo of
+            {'\n'}
+            react-native-guide
+          </Text>
+        </TourGuideZone>
 
-        <TourGuideZone zone={3} shape={'rectangle_and_keep'}>
-          <TouchableOpacity style={styles.button} onPress={() => start(4)}>
-            <Text style={styles.buttonText}>Step 4</Text>
+        <View style={styles.middleView}>
+          <TouchableOpacity onPress={() => start(2)} style={styles.button}>
+            <Text style={styles.buttonText}>START THE TUTORIAL!</Text>
           </TouchableOpacity>
-        </TourGuideZone>
-        <TouchableOpacity style={styles.button} onPress={() => start(2)}>
-          <Text style={styles.buttonText}>Step 2</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={stop}>
-          <Text style={styles.buttonText}>Stop</Text>
-        </TouchableOpacity>
-        <TourGuideZone
-          zone={1}
-          text={'With animated SVG morphing with awesome flubber 🍮💯'}
-          isActive={false} // Inactive
-        >
-          <Image source={{ uri }} style={styles.profilePhoto} />
-        </TourGuideZone>
+
+          <TourGuideZone holeStyle={{ paddingX: 0, paddingY: 0, borderRadius: 0 }} index={3}>
+            <TouchableOpacity onPress={() => start(4)} style={styles.button}>
+              <Text style={styles.buttonText}>Step 4</Text>
+            </TouchableOpacity>
+          </TourGuideZone>
+          <TouchableOpacity onPress={() => start(2)} style={styles.button}>
+            <Text style={styles.buttonText}>Step 2</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={stop} style={styles.button}>
+            <Text style={styles.buttonText}>Stop</Text>
+          </TouchableOpacity>
+          <TourGuideZone index={7}>
+            <Image
+              source={{ uri: 'https://avatars.githubusercontent.com/u/63250453?v=4' }}
+              style={styles.profilePhoto}
+            />
+          </TourGuideZone>
+        </View>
+        <View style={styles.row}>
+          <TourGuideZone index={4}>
+            <Ionicons color="#888" name="add-circle" size={40} />
+          </TourGuideZone>
+          <Ionicons color="#888" name="chatbubbles" size={40} />
+          <Ionicons color="#888" name="globe" size={40} />
+          <TourGuideZone index={5}>
+            <Ionicons color="#888" name="navigate" size={40} />
+          </TourGuideZone>
+          <TourGuideZone index={2}>
+            <Ionicons color="#888" name="rainy" size={40} />
+          </TourGuideZone>
+        </View>
       </View>
-      <View style={styles.row}>
-        <TourGuideZone zone={4}>
-          <Ionicons name='contact' {...iconProps} />
-        </TourGuideZone>
-        <Ionicons name='chatbubbles' {...iconProps} />
-        <Ionicons name='globe' {...iconProps} />
-        <TourGuideZone zone={5}>
-          <Ionicons name='navigate' {...iconProps} />
-        </TourGuideZone>
-        <TourGuideZone zone={6}>
-          <Ionicons name='rainy' {...iconProps} />
-        </TourGuideZone>
-      </View>
-    </View>
-  )
-}
+    </ScrollView>
+  );
+};
 ```
 
 ## Contributing

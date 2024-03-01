@@ -9,12 +9,11 @@ import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from '
 
 import type { HoleStyle, IStep } from './types';
 
-import TooltipPlaceholder, { type TooltipPlaceholderProps } from './TooltipPlaceholder';
-import useTourGuideStore from './store';
+import TooltipPlaceholder from './TooltipPlaceholder';
 import { calcPosition, parseProperty } from './utils';
 
 export type TourGuideModalProps = {
-  TooltipComponent?: FC<TooltipPlaceholderProps>;
+  TooltipComponent?: FC;
   animationDuration?: number;
   backdropColor?: string;
   holeStyle?: HoleStyle;
@@ -31,12 +30,6 @@ const Modal: FC<TourGuideModalProps> = ({
   const tooltipTranslateY = useSharedValue(400);
   const opacity = useSharedValue(0);
   const [layout, setLayout] = useState<LayoutRectangle | null>(null);
-  const {
-    next,
-    prev,
-    stop,
-    computed: { isFirstStep, isLastStep },
-  } = useTourGuideStore();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -99,14 +92,7 @@ const Modal: FC<TourGuideModalProps> = ({
       />
 
       <Animated.View pointerEvents="box-none" style={[styles.tooltip, step.tooltipStyle, animatedStyles]}>
-        <TooltipComponent
-          isFirstStep={isFirstStep}
-          isLastStep={isLastStep}
-          next={next}
-          prev={prev}
-          step={step}
-          stop={stop}
-        />
+        <TooltipComponent />
       </Animated.View>
     </View>
   );

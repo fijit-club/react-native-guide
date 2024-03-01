@@ -1,16 +1,10 @@
-/* eslint-disable react-native/no-color-literals */
 import { Ionicons } from '@expo/vector-icons';
 import { type FC, useEffect } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { TourGuideProvider, TourGuideZone, useTourGuide } from 'react-native-guide';
 
 const AppContent = () => {
-  const iconProps = { size: 40, color: '#888' };
-  const {
-    start,
-    computed: { canStart },
-    stop,
-  } = useTourGuide();
+  const { start, canStart, stop } = useTourGuide();
 
   useEffect(() => {
     if (canStart) start(2);
@@ -20,7 +14,11 @@ const AppContent = () => {
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>
         <TourGuideZone index={6}>
-          <Text style={styles.title}>{'Welcome to the demo of\n"rn-tourguide"'}</Text>
+          <Text style={styles.title}>
+            Welcome to the demo of
+            {'\n'}
+            react-native-guide
+          </Text>
         </TourGuideZone>
 
         <View style={styles.middleView}>
@@ -48,15 +46,15 @@ const AppContent = () => {
         </View>
         <View style={styles.row}>
           <TourGuideZone index={4}>
-            <Ionicons name="add-circle" {...iconProps} />
+            <Ionicons color="#888" name="add-circle" size={40} />
           </TourGuideZone>
-          <Ionicons name="chatbubbles" {...iconProps} />
-          <Ionicons name="globe" {...iconProps} />
+          <Ionicons color="#888" name="chatbubbles" size={40} />
+          <Ionicons color="#888" name="globe" size={40} />
           <TourGuideZone index={5}>
-            <Ionicons name="navigate" {...iconProps} />
+            <Ionicons color="#888" name="navigate" size={40} />
           </TourGuideZone>
           <TourGuideZone index={2}>
-            <Ionicons name="rainy" {...iconProps} />
+            <Ionicons color="#888" name="rainy" size={40} />
           </TourGuideZone>
         </View>
       </View>
