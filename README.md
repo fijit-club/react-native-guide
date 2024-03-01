@@ -5,24 +5,21 @@ react native guide
 ## Installation
 
 ```sh
-yarn add react-native-guide react-native-hole-view react-native-reanimated
+yarn add react-native-guide react-native-hole-view react-native-reanimated zustand
 ```
 
 ## Usage
 
 ```tsx
-import {
-  TourGuideProvider, // Main provider
-  TourGuideZone, // Main wrapper of highlight component
-  useTourGuideController, // hook to start, etc.
-} from 'react-native-guide'
+import { TourGuideModal, TourGuideZone, useTourGuide } from 'react-native-guide';
 
-// Add <TourGuideProvider/> at the root of you app!
+// Add <TourGuideModal/> at the root of you app!
 function App() {
   return (
-    <TourGuideProvider backdropColor="#000000de" holeStyle={{ paddingX: 32, paddingY: 16, borderRadius: 16 }}>
+    <>
       <AppContent />
-    </TourGuideProvider>
+      <TourGuideModal backdropColor="#000000de" holeStyle={{ paddingX: 32, paddingY: 16, borderRadius: 16 }} />
+    </>
   )
 }
 

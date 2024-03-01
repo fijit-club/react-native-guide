@@ -1072,7 +1072,7 @@ PODS:
     - React-jsi (= 0.73.5)
     - React-logger (= 0.73.5)
     - React-perflogger (= 0.73.5)
-  - RNReanimated (3.7.1):
+  - RNReanimated (3.7.2):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
@@ -1319,7 +1319,7 @@ SPEC CHECKSUMS:
   React-runtimescheduler: 814b644a5f456c7df1fba7bcd9914707152527c6
   React-utils: 987a4526a2fc0acdfaf87888adfe0bf9d0452066
   ReactCommon: 2947b0bffd82ea0e58ca7928881152d4c6dae9af
-  RNReanimated: 15a855719335a6b655a214531e86d806edfd49da
+  RNReanimated: d7dcd9f7a2a59f886e1351db3ed6baf32643ccad
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: 9e6a04eacbd94f97d94577017e9f23b3ab41cf6c
 

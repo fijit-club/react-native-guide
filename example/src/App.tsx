@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { type FC, useEffect } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { TourGuideProvider, TourGuideZone, useTourGuide } from 'react-native-guide';
+import { TourGuideModal, TourGuideZone, useTourGuide } from 'react-native-guide';
 
 const AppContent = () => {
   const { start, canStart, stop } = useTourGuide();
@@ -64,9 +64,10 @@ const AppContent = () => {
 
 const App: FC = () => {
   return (
-    <TourGuideProvider backdropColor="#000000de" holeStyle={{ paddingX: 32, paddingY: 16, borderRadius: 16 }}>
+    <>
       <AppContent />
-    </TourGuideProvider>
+      <TourGuideModal backdropColor="#000000de" holeStyle={{ paddingX: 32, paddingY: 16, borderRadius: 16 }} />
+    </>
   );
 };
 const styles = StyleSheet.create({
