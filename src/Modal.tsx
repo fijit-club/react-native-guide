@@ -33,12 +33,9 @@ const Modal: FC<TourGuideModalProps> = ({
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (!step.ref.current) return;
-      step.ref.current.measureInWindow((x, y, width, height) => {
+      step.ref.current?.measureInWindow((x, y, width, height) => {
         const newLayout = { x: Math.round(x), y: Math.round(y), width: Math.round(width), height: Math.round(height) };
-        if (JSON.stringify(newLayout) === JSON.stringify(layout)) return;
-
-        setLayout({ x, y, width, height });
+        if (JSON.stringify(newLayout) !== JSON.stringify(layout)) setLayout(newLayout);
       });
     }, 300);
 
