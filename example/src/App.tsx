@@ -2,17 +2,19 @@
 import { Ionicons } from '@expo/vector-icons';
 import { type FC, useEffect } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { TourGuideProvider, TourGuideZone, useTourGuideController } from 'react-native-guide';
-
-const uri = 'https://pbs.twimg.com/profile_images/1223192265969016833/U8AX9Lfn_400x400.jpg';
+import { TourGuideProvider, TourGuideZone, useTourGuide } from 'react-native-guide';
 
 const AppContent = () => {
   const iconProps = { size: 40, color: '#888' };
-  const { start, canStart, stop } = useTourGuideController();
+  const {
+    start,
+    computed: { canStart },
+    stop,
+  } = useTourGuide();
 
   useEffect(() => {
     if (canStart) start(2);
-  }, [start, canStart]);
+  }, [canStart, start]);
 
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -38,7 +40,10 @@ const AppContent = () => {
             <Text style={styles.buttonText}>Stop</Text>
           </TouchableOpacity>
           <TourGuideZone index={7}>
-            <Image source={{ uri }} style={styles.profilePhoto} />
+            <Image
+              source={{ uri: 'https://avatars.githubusercontent.com/u/63250453?v=4' }}
+              style={styles.profilePhoto}
+            />
           </TourGuideZone>
         </View>
         <View style={styles.row}>

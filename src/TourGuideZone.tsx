@@ -1,36 +1,31 @@
 import type { FC, PropsWithChildren } from 'react';
-import type { LayoutRectangle } from 'react-native';
 
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { View } from 'react-native';
 
 import type { IStep } from './types';
 
-import TourGuideContext from './TourGuideContext';
+import useTourGuideStore from './store';
 
-type StepProps = PropsWithChildren<Omit<IStep, 'layout'>>;
+type StepProps = PropsWithChildren<Omit<IStep, 'layout' | 'ref'>>;
 
 const Step: FC<StepProps> = ({ children, index, style, ...props }) => {
-  const { registerStep, unregisterStep } = useContext(TourGuideContext);
-  const [layout, setLayout] = useState<LayoutRectangle | null>(null);
+  const { setStep } = useTourGuideStore();
   const ref = useRef<View>(null);
 
   useEffect(() => {
-    if (!layout) return;
-    registerStep({ layout, index, ...props });
+    if (ref.current === null) return;
+    const step = { index, ref, ...props };
+    setStep(index, step);
 
     return () => {
-      unregisterStep(index);
+      setStep(index, undefined);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index, layout, registerStep, unregisterStep, JSON.stringify(props)]);
-
-  const onLayout = () => {
-    ref.current?.measure((_x, _y, width, height, pageX, pageY) => setLayout({ x: pageX, y: pageY, width, height }));
-  };
+  }, [index, setStep, JSON.stringify(props)]);
 
   return (
-    <View onLayout={onLayout} ref={ref} style={style}>
+    <View ref={ref} style={style}>
       {children}
     </View>
   );
