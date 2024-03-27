@@ -20,6 +20,23 @@ export type TourGuideModalProps = {
   step: IStep;
 };
 
+const isHoleOutsideScreen = (modalLayout: LayoutRectangle, stepLayout: LayoutRectangle) => {
+  // Check if the hole's right edge is to the left of the screen's left edge
+  const isLeftOfScreen = stepLayout.x + stepLayout.width < 0;
+
+  // Check if the hole's left edge is to the right of the screen's right edge
+  const isRightOfScreen = stepLayout.x > modalLayout.width;
+
+  // Check if the hole's bottom edge is above the screen's top edge
+  const isAboveScreen = stepLayout.y + stepLayout.height < 0;
+
+  // Check if the hole's top edge is below the screen's bottom edge
+  const isBelowScreen = stepLayout.y > modalLayout.height;
+
+  // If any of these conditions are true, the hole is completely outside the screen
+  return isLeftOfScreen || isRightOfScreen || isAboveScreen || isBelowScreen;
+};
+
 const Modal: FC<TourGuideModalProps> = ({
   step,
   backdropColor,
@@ -29,22 +46,28 @@ const Modal: FC<TourGuideModalProps> = ({
 }) => {
   const tooltipTranslateY = useSharedValue(400);
   const opacity = useSharedValue(0);
-  const [layout, setLayout] = useState<LayoutRectangle | null>(null);
+  const [stepLayout, setStepLayout] = useState<LayoutRectangle | null>(null);
+  const [modalLayout, setModalLayout] = useState<LayoutRectangle | null>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
       step.ref.current?.measureInWindow((x, y, width, height) => {
-        const newLayout = { x: Math.round(x), y: Math.round(y), width: Math.round(width), height: Math.round(height) };
-        if (JSON.stringify(newLayout) !== JSON.stringify(layout)) setLayout(newLayout);
+        const stepLayoutNext = {
+          x: Math.round(x),
+          y: Math.round(y),
+          width: Math.round(width),
+          height: Math.round(height),
+        };
+        if (JSON.stringify(stepLayoutNext) !== JSON.stringify(stepLayout)) setStepLayout(stepLayoutNext);
       });
     }, 300);
 
     return () => clearInterval(interval);
-  }, [layout, step.index, step.ref]);
+  }, [stepLayout, step.index, step.ref]);
 
   useEffect(() => {
-    if (!layout) return;
-    const toValue = calcPosition(layout).toValue - (step.tooltipBottomOffset || 0);
+    if (!stepLayout) return;
+    const toValue = calcPosition(stepLayout).toValue - (step.tooltipBottomOffset || 0);
 
     tooltipTranslateY.value = withTiming(toValue, {
       duration: animationDuration,
@@ -55,30 +78,31 @@ const Modal: FC<TourGuideModalProps> = ({
       duration: animationDuration,
       easing: Easing.inOut(Easing.ease),
     });
-  }, [opacity, tooltipTranslateY, step.tooltipBottomOffset, layout, animationDuration]);
+  }, [opacity, tooltipTranslateY, step.tooltipBottomOffset, stepLayout, animationDuration]);
 
-  const animatedStyles = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateY: tooltipTranslateY.value }],
-      opacity: opacity.value,
-    };
-  });
+  const animatedStyles = useAnimatedStyle(() => ({
+    transform: [{ translateY: tooltipTranslateY.value }],
+    opacity: opacity.value,
+  }));
 
-  if (!layout) return null;
+  if (!stepLayout) return null;
 
-  const paddingX = parseProperty(step.holeStyle, holeStyle, 'paddingX');
-  const paddingY = parseProperty(step.holeStyle, holeStyle, 'paddingY');
+  const paddingX = parseProperty(step.holeStyle, holeStyle, 'paddingHorizontal');
+  const paddingY = parseProperty(step.holeStyle, holeStyle, 'paddingVertical');
   const hole: RNHole = {
-    x: layout.x - paddingX / 2,
-    y: layout.y - paddingY / 2,
-    width: layout.width + paddingX,
-    height: layout.height + paddingY,
+    x: stepLayout.x - paddingX / 2,
+    y: stepLayout.y - paddingY / 2,
+    width: stepLayout.width + paddingX,
+    height: stepLayout.height + paddingY,
     ...holeStyle,
     ...step.holeStyle,
   };
 
+  if (modalLayout !== null && isHoleOutsideScreen(modalLayout, stepLayout)) return null;
+
   return (
     <View
+      onLayout={(event) => setModalLayout(event.nativeEvent.layout)}
       pointerEvents={step.disableInteraction ? 'box-only' : 'box-none'}
       style={[StyleSheet.absoluteFill, styles.zIndex]}
     >

@@ -3,8 +3,8 @@ import type { StyleProp, View, ViewStyle } from 'react-native';
 import type { RNHole } from 'react-native-hole-view';
 
 export type HoleStyle = Partial<RNHole> & {
-  paddingX?: number;
-  paddingY?: number;
+  paddingHorizontal?: number;
+  paddingVertical?: number;
 };
 
 export type IStep = {

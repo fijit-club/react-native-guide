@@ -26,7 +26,7 @@ const AppContent = () => {
             <Text style={styles.buttonText}>START THE TUTORIAL!</Text>
           </TouchableOpacity>
 
-          <TourGuideZone holeStyle={{ paddingX: 0, paddingY: 0, borderRadius: 0 }} index={3}>
+          <TourGuideZone holeStyle={{ paddingHorizontal: 0, paddingVertical: 0, borderRadius: 0 }} index={3}>
             <TouchableOpacity onPress={() => start(4)} style={styles.button}>
               <Text style={styles.buttonText}>Step 4</Text>
             </TouchableOpacity>
@@ -66,7 +66,10 @@ const App: FC = () => {
   return (
     <>
       <AppContent />
-      <TourGuideModal backdropColor="#000000de" holeStyle={{ paddingX: 32, paddingY: 16, borderRadius: 16 }} />
+      <TourGuideModal
+        backdropColor="#000000de"
+        holeStyle={{ paddingHorizontal: 32, paddingVertical: 16, borderRadius: 16 }}
+      />
     </>
   );
 };

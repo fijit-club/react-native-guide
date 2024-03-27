@@ -25,7 +25,7 @@ const Step: FC<StepProps> = ({ children, index, style, ...props }) => {
   }, [index, setStep, JSON.stringify(props)]);
 
   return (
-    <View ref={ref} style={style}>
+    <View collapsable={false} ref={ref} style={style}>
       {children}
     </View>
   );
