@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import type { LayoutRectangle } from 'react-native';
+import type { LayoutRectangle, StyleProp, ViewStyle } from 'react-native';
 import type { RNHole } from 'react-native-hole-view';
 
 import { useEffect, useState } from 'react';
@@ -18,6 +18,7 @@ export type TourGuideModalProps = {
   backdropColor?: string;
   holeStyle?: HoleStyle;
   step: IStep;
+  tooltipContainerStyle?: StyleProp<ViewStyle>;
 };
 
 const isHoleOutsideScreen = (modalLayout: LayoutRectangle, stepLayout: LayoutRectangle) => {
@@ -41,6 +42,7 @@ const Modal: FC<TourGuideModalProps> = ({
   step,
   backdropColor,
   holeStyle,
+  tooltipContainerStyle,
   TooltipComponent = TooltipPlaceholder,
   animationDuration = 400,
 }) => {
@@ -112,7 +114,10 @@ const Modal: FC<TourGuideModalProps> = ({
         style={[styles.hole, { backgroundColor: backdropColor }]}
       />
 
-      <Animated.View pointerEvents="box-none" style={[styles.tooltip, step.tooltipStyle, animatedStyles]}>
+      <Animated.View
+        pointerEvents="box-none"
+        style={[styles.tooltip, tooltipContainerStyle, step.tooltipStyle, animatedStyles]}
+      >
         <TooltipComponent />
       </Animated.View>
     </View>

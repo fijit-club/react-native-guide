@@ -69,6 +69,7 @@ const App: FC = () => {
       <TourGuideModal
         backdropColor="#000000de"
         holeStyle={{ paddingHorizontal: 32, paddingVertical: 16, borderRadius: 16 }}
+        tooltipContainerStyle={{ pointerEvents: 'none' }}
       />
     </>
   );
