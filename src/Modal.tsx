@@ -3,7 +3,7 @@ import type { LayoutRectangle, StyleProp, ViewStyle } from 'react-native';
 import type { RNHole } from 'react-native-hole-view';
 
 import { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StatusBar, StyleSheet, View } from 'react-native';
 import { ERNHoleViewTimingFunction, RNHoleView } from 'react-native-hole-view';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
@@ -56,7 +56,7 @@ const Modal: FC<TourGuideModalProps> = ({
       step.ref.current?.measureInWindow((x, y, width, height) => {
         const stepLayoutNext = {
           x: Math.round(x),
-          y: Math.round(y),
+          y: Math.round(y) + (StatusBar.currentHeight ?? 0),
           width: Math.round(width),
           height: Math.round(height),
         };
