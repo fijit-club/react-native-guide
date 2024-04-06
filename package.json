@@ -1,6 +1,6 @@
 {
   "name": "react-native-guide",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "react native tourguide",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
