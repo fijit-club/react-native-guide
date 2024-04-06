@@ -105,7 +105,7 @@ const Modal: FC<TourGuideModalProps> = ({
   return (
     <View
       onLayout={(event) => setModalLayout(event.nativeEvent.layout)}
-      pointerEvents={step.disableInteraction ? 'box-only' : 'box-none'}
+      pointerEvents={step.disableInteraction ? 'box-only' : 'none'}
       style={[StyleSheet.absoluteFill, styles.zIndex]}
     >
       <RNHoleView

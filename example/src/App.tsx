@@ -7,7 +7,7 @@ const AppContent = () => {
   const { start, canStart, stop } = useTourGuide();
 
   useEffect(() => {
-    if (canStart) start(2);
+    if (canStart) start(3);
   }, [canStart, start]);
 
   return (
@@ -69,7 +69,7 @@ const App: FC = () => {
       <TourGuideModal
         backdropColor="#000000de"
         holeStyle={{ paddingHorizontal: 32, paddingVertical: 16, borderRadius: 16 }}
-        tooltipContainerStyle={{ pointerEvents: 'none' }}
+        // tooltipContainerStyle={{ pointerEvents: 'none' }}
       />
     </>
   );
